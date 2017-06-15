@@ -1,0 +1,15 @@
+{
+  "name": "barebones",
+  "version": "1.0.0",
+  "description": "A barebones fullstack app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./server/basic-server.js"
+  },
+  "author": "Justine Wang",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=4.0.0"
+  }
+}
