@@ -11,5 +11,9 @@
   "license": "UNLICENSED",
   "engines": {
     "node": ">=4.0.0"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "mysql": "^2.13.0"
   }
 }
