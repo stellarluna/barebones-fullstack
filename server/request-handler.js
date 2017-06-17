@@ -11,6 +11,9 @@ var connection = mysql.createConnection({
   database: 'garden'
 });
 
+// our "nouns" or endpoints are going to our tables in the database:
+  // flowers, petals, weeds
+
 exports.handleRequest = function(request, response) {
   // use the parse method of the url core module to get specifically
   // the pathname of the request.url
@@ -44,14 +47,49 @@ exports.handleRequest = function(request, response) {
   }
   // if request.method === 'POST'
   if (request.method === 'POST') {
+
     // insert into flower when urlPath === '/flower'
     if (urlPath === '/flower') {
       // send "This is a flower"
-      // connection.query('INSERT INTO flower VALUES(rose, red, northwest)', function(err, ))
-      utils.sendResponse(response, 'This is a flower', 200);
+      utils.collectData(request, function(data) {
+        // utils.sendResponse(response, JSON.stringify(data), 200);
+        connection.query(`INSERT INTO flowers (name, color, region) VALUES('${data.name}', '${data.color}', '${data.region}')`, function(err, results, fields) {
+          if (err) {
+            console.error(err);
+            utils.send404(response);
+          } else {
+            utils.sendResponse(response, 'Flower saved to database', 200);
+          }
+        });
+      });
+      // console.log('request.body:', request.body);
+      // utils.sendResponse(response, 'POST successful', 200);
 
     } else if (urlPath === '/petal') {
-      utils.sendResponse(response, 'This is a petal', 200);
+      utils.collectData(request, function(data) {
+        connection.query(`INSERT INTO petals (number_of_petals, texture) VALUES('${data.number_of_petals}', '${data.texture}')`, function(err, results, fields) {
+          if (err) {
+            console.error(err);
+            utils.send404(response);
+          } else {
+            utils.sendResponse(response, 'Petal saved to database', 200);
+          }
+        });
+      });
+    } else if (urlPath === '/weed') {
+      // else if urlPath is '/weed'
+      // concatenate the data sent by the client and add to database
+      // insert data from client to database using the mysql connection.query function
+      utils.collectData(request, function(data) {
+        connection.query(`INSERT INTO weeds (name, color, region) VALUES('${data.name}', '${data.color}', '${data.region}')`, function(err, results, fields) {
+          if (err) {
+            console.error(err);
+            utils.send404(response);
+          } else {
+            utils.sendResponse(response, 'Weed saved to database', 200);
+          }
+        });
+      });
     }
   }
   // if request.method === 'PUT'
