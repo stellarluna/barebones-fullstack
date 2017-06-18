@@ -107,7 +107,7 @@ exports.handleRequest = function(request, response) {
             console.error(err);
             utils.send404(response);
           } else {
-            utils.sendResponse(response, 'Flower saved to database', 200);
+            utils.sendResponse(response, 'Flower updated in database', 200);
           }
         });
       });
@@ -121,7 +121,7 @@ exports.handleRequest = function(request, response) {
             console.error(err);
             utils.send404(response);
           } else {
-            utils.sendResponse(response, 'Petal saved to database', 200);
+            utils.sendResponse(response, 'Petal updated in database', 200);
           }
         });
       });
@@ -135,7 +135,7 @@ exports.handleRequest = function(request, response) {
             console.error(err);
             utils.send404(response);
           } else {
-            utils.sendResponse(response, 'Weed saved to database', 200);
+            utils.sendResponse(response, 'Weed updated in database', 200);
           }
         });
       });
@@ -144,14 +144,46 @@ exports.handleRequest = function(request, response) {
   // if request.method === 'DELETE'
   if (request.method === 'DELETE') {
     // use mysql connection.query to delete row from table
-    // connection.query(, function(err, results, field) {
-    //   if (err) {
-    //     console.error(err);
-    //     utils.send404(response);
-    //   } else {
-    //     var deleteMessage = 'Deleted ' + data
-    //     utils.sendResponse(response, 'Deleted ', 200);
-    //   }
-    // })
+
+    // insert into flower when urlPath === '/flower'
+    if (urlPath === '/flower') {
+      // send "This is a flower"
+      utils.collectData(request, function(data) {
+        connection.query(`DELETE FROM flowers WHERE id = '${data.id}'`, function(err, results, fields) {
+          if (err) {
+            console.error(err);
+            utils.send404(response);
+          } else {
+            utils.sendResponse(response, 'Flower deleted from database', 200);
+          }
+        });
+      });
+
+    } else if (urlPath === '/petal') {
+      utils.collectData(request, function(data) {
+        connection.query(`DELETE FROM petals WHERE id = '${data.id}'`, function(err, results, fields) {
+          if (err) {
+            console.error(err);
+            utils.send404(response);
+          } else {
+            utils.sendResponse(response, 'Petal deleted from database', 200);
+          }
+        });
+      });
+    } else if (urlPath === '/weed') {
+      // else if urlPath is '/weed'
+      // concatenate the data sent by the client and add to database
+      // insert data from client to database using the mysql connection.query function
+      utils.collectData(request, function(data) {
+        connection.query(`DELETE FROM weeds WHERE id = '${data.id}'`, function(err, results, fields) {
+          if (err) {
+            console.error(err);
+            utils.send404(response);
+          } else {
+            utils.sendResponse(response, 'Weed deleted from database', 200);
+          }
+        });
+      });
+    }
   }
 }
