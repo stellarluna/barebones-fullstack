@@ -93,7 +93,65 @@ exports.handleRequest = function(request, response) {
     }
   }
   // if request.method === 'PUT'
+  if (request.method === 'PUT') {
+    // PUT requests create or update the database
+    // idempotent – the same PUT request should return the same response
 
+    // update flower when urlPath === '/flower'
+    if (urlPath === '/flower') {
+      // send "This is a flower"
+      utils.collectData(request, function(data) {
+        // utils.sendResponse(response, JSON.stringify(data), 200);
+        connection.query(`UPDATE flowers SET name = '${data.name}', color = '${data.color}', region = '${data.region}' WHERE id = '${data.id}'`, function(err, results, fields) {
+          if (err) {
+            console.error(err);
+            utils.send404(response);
+          } else {
+            utils.sendResponse(response, 'Flower saved to database', 200);
+          }
+        });
+      });
+      // console.log('request.body:', request.body);
+      // utils.sendResponse(response, 'POST successful', 200);
+
+    } else if (urlPath === '/petal') {
+      utils.collectData(request, function(data) {
+        connection.query(`UPDATE petals SET number_of_petals = '${data.number_of_petals}', texture = '${data.texture}' WHERE id = '${data.id}'`, function(err, results, fields) {
+          if (err) {
+            console.error(err);
+            utils.send404(response);
+          } else {
+            utils.sendResponse(response, 'Petal saved to database', 200);
+          }
+        });
+      });
+    } else if (urlPath === '/weed') {
+      // else if urlPath is '/weed'
+      // concatenate the data sent by the client and add to database
+      // insert data from client to database using the mysql connection.query function
+      utils.collectData(request, function(data) {
+        connection.query(`UPDATE weeds SET name ='${data.name}', color = '${data.color}', region = '${data.region}' WHERE id = '${data.id}'`, function(err, results, fields) {
+          if (err) {
+            console.error(err);
+            utils.send404(response);
+          } else {
+            utils.sendResponse(response, 'Weed saved to database', 200);
+          }
+        });
+      });
+    }
+  }
   // if request.method === 'DELETE'
-
+  if (request.method === 'DELETE') {
+    // use mysql connection.query to delete row from table
+    // connection.query(, function(err, results, field) {
+    //   if (err) {
+    //     console.error(err);
+    //     utils.send404(response);
+    //   } else {
+    //     var deleteMessage = 'Deleted ' + data
+    //     utils.sendResponse(response, 'Deleted ', 200);
+    //   }
+    // })
+  }
 }
