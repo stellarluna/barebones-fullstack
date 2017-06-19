@@ -7,9 +7,19 @@ var headers = {
 
 exports.sendResponse = function(response, obj, status) {
   status = status || 200;
-  response.writeHead(status, exports.headers);
+  headers['Content-Type'] = 'application/json';
+  response.writeHead(status, headers);
   response.end(obj);
 };
+
+exports.sendHTML = function(response, file, status) {
+  status = status || 200;
+  headers['Content-Type'] = 'text/html';
+  response.writeHead(status, headers);
+  // response.write(file);
+  // console.log(typeof file);
+  response.end(file);
+}
 
 exports.collectData = function(request, callback) {
   var data = '';

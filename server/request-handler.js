@@ -22,20 +22,29 @@ exports.handleRequest = function(request, response) {
   if (request.method === 'GET') {
     // read the file in the file system that matches the url endpoint
     if (urlPath === '/') {
-      utils.sendResponse(response, 'working?', 200);
-
-      // fs.readFile(__dirname + urlPath, function(err, data) {
-      //   if (err) {
-      //     // response.writeHead(404, utils.headers);
-      //     // response.end();
-      //     utils.send404(response);
-      //   } else {
-      //     // response.writeHead(200, utils.headers);
-      //     utils.sendResponse(response, data, 200);
-      //   }
-      // });
+      // utils.sendResponse(response, 'working?', 200);
+      console.log(__dirname + '/../client/index.html');
+      fs.readFile(__dirname + '/../client/index.html', function(err, data) {
+        if (err) {
+          // response.writeHead(404, utils.headers);
+          // response.end();
+          utils.send404(response);
+        } else {
+          // response.writeHead(200, utils.headers);
+          // utils.sendResponse(response, 'Hello', 200);
+          utils.sendHTML(response, data, 200);
+        }
+      });
     }
-    if (urlPath === 'flower') {
+    else if (urlPath === 'flower') {
+      fs.readFile(__dirname + urlPath, function(err, data) {
+        if (err) {
+          utils.send404(response);
+        } else {
+          utils.sendResponse(response, data, 200);
+        }
+      });
+    } else {
       fs.readFile(__dirname + urlPath, function(err, data) {
         if (err) {
           utils.send404(response);
@@ -45,6 +54,7 @@ exports.handleRequest = function(request, response) {
       });
     }
   }
+
   // if request.method === 'POST'
   if (request.method === 'POST') {
 
