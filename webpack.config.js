@@ -7,13 +7,13 @@ const webpack = require('webpack');
 module.exports = {
   entry: './client/index.js',
   output: {
-    path: path.resolve('dist'),
+    path: path.resolve(__dirname, 'client'),
     filename: 'bundle.js'
   },
   module: {
     loaders: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
+      { test: /\.js$/, loaders: 'babel-loader', exclude: /node_modules/ },
+      { test: /\.jsx$/, loaders: 'babel-loader', exclude: /node_modules/ }
     ]
   }
 }

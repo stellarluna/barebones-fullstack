@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./server/basic-server.js"
+    "start": "nodemon ./server/basic-server.js",
+    "bundle": "./node_modules/.bin/webpack",
+    "build": "babel . --out-dir compiled --presets=es2015,react --ignore=node_modules,compiled --source-maps inline",
+    "build:watch": "babel . --out-dir compiled --presets=es2015,react --ignore=node_modules,compiled --source-maps inline --watch"
   },
   "author": "Justine Wang",
   "license": "UNLICENSED",
@@ -13,6 +16,7 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mysql": "^2.13.0",
     "react": "^15.6.1",
