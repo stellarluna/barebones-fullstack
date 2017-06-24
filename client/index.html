@@ -11,7 +11,18 @@
   <div id="app"></div>
   <!-- <script src="compiled/client/App.js"></script>
   <script src="compiled/client/index.js"></script> -->
-  <script src="./bundle.js"></script>
+
+  <!-- NOTE: The relative paths for the script src tags should be -->
+  <!-- coming from the __dirname for wherever index.html is being -->
+  <!-- served. (At the time of this writing for my case, it's -->
+  <!-- ../server/request-handler.js.) REMEMBER: the browser is making a -->
+  <!-- GET request to the server for an index.html file, which also needs -->
+  <!-- to find other files like stylesheets, components, and libraries. -->
+  <!-- But the "person" that needs to do the finding is the server, so -->
+  <!-- wherever the GET request handler is defines the relative paths. -->
+  
+  <!-- http://localhost:3000/bundle.js -->
+  <script src="bundle.js"></script>
   <h1>Index</h1>
 </body>
 </html>

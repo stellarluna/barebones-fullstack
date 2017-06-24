@@ -45,7 +45,8 @@ exports.handleRequest = function(request, response) {
         }
       });
     } else {
-      fs.readFile(__dirname + urlPath, function(err, data) {
+      // serving assets
+      fs.readFile(__dirname + '/../client/' + urlPath, function(err, data) {
         if (err) {
           utils.send404(response);
         } else {
